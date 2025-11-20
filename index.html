@@ -33,33 +33,24 @@
 </head>
 <body>
   <div class="app">
-    <header class="topbar">
-      <a class="logo" href="#" onclick="showPage('page1')">Site 3D</a>
-      <div class="muted">Demo: kéo xuống -> điều hướng -> trang mô hình 3D</div>
-    </header>
-
     <main id="page1" class="page active">
       <h1>Hướng dẫn nhanh</h1>
       <p class="muted">Kéo xuống để xem từng bước. Ở mỗi bước có ảnh minh họa. Sau bước cuối bấm NEXT để sang trang chính.</p>
       <div class="steps-wrap" role="region" aria-label="Các bước hướng dẫn">
         <section class="step" id="step1">
           <h2>Bước 1 — Giới thiệu</h2>
-          <p>Đây là phần mô tả ngắn cho bước 1. Hướng dẫn người dùng chuẩn bị file .glb hoặc ảnh minh họa.</p>
           <img src="https://via.placeholder.com/800x450?text=Ảnh+Bước+1" alt="Ảnh minh họa bước 1">
         </section>
         <section class="step" id="step2">
           <h2>Bước 2 — Cấu trúc thư mục</h2>
-          <p>Hướng dẫn đặt file 3D vào thư mục `models/`, ảnh vào `images/`. GitHub Pages sẽ phục vụ trực tiếp các file này.</p>
           <img src="https://via.placeholder.com/800x450?text=Ảnh+Bước+2" alt="Ảnh minh họa bước 2">
         </section>
         <section class="step" id="step3">
           <h2>Bước 3 — Cách nhúng mô hình</h2>
-          <p>Sử dụng thẻ <code>&lt;model-viewer&gt;</code> (đã tích hợp sẵn). Thay URL bằng đường dẫn tới file .glb của bạn.</p>
           <img src="https://via.placeholder.com/800x450?text=Ảnh+Bước+3" alt="Ảnh minh họa bước 3">
         </section>
       </div>
       <div style="display:flex;justify-content:space-between;gap:12px;margin-top:14px">
-        <button class="btn secondary" onclick="downloadGuide()">Tải hướng dẫn (.md)</button>
         <div style="display:flex;gap:8px">
           <button class="btn" onclick="showPage('page2')">Next — Sang trang chính</button>
         </div>
@@ -67,23 +58,21 @@
     </main>
 
     <section id="page2" class="page">
-      <h1>Chọn mô hình cần xem</h1>
-      <p class="muted">Chọn 1 trong 2 mẫu để xem chi tiết (trang 3 và trang 4).</p>
+      <h1>Chọn đồ gốm cần xem</h1>
+      <p class="muted">Chọn 1 trong 2 đồ gốm để xem chi tiết.</p>
       <div class="nav-grid" style="margin-top:18px">
         <div class="card">
-          <h3>Mẫu A</h3>
-          <p class="muted">Mô tả ngắn mô hình A.</p>
+          <h3> Đồ gốm Sa Huỳnh </h3>
+          <p class="muted">Mô tả ngắn mô hình đồ gốm Sa Huỳnh.</p>
           <div style="margin-top:auto;display:flex;gap:8px">
-            <button class="btn" onclick="showPage('page3')">Mở trang 3</button>
-            <button class="btn secondary" onclick="showPage('page2')">Giữ ở đây</button>
+            <button class="btn" onclick="showPage('page3')">Vô xem</button>
           </div>
         </div>
         <div class="card">
-          <h3>Mẫu B</h3>
-          <p class="muted">Mô tả ngắn mô hình B.</p>
+          <h3> Đồ gốm Đông Sơn </h3>
+          <p class="muted">Mô tả ngắn mô hình đồ gốm Đông Sơn.</p>
           <div style="margin-top:auto;display:flex;gap:8px">
-            <button class="btn" onclick="showPage('page4')">Mở trang 4</button>
-            <button class="btn secondary" onclick="showPage('page2')">Giữ ở đây</button>
+            <button class="btn" onclick="showPage('page4')">Vô xem</button>
           </div>
         </div>
       </div>
@@ -93,51 +82,37 @@
     </section>
 
     <section id="page3" class="page">
-      <h1>Trang 3 — Mô hình A</h1>
+      <h1>Trang 3 — Mô hình đồ gốm Sa Huỳnh</h1>
       <div class="two-col" style="margin-top:12px">
         <div class="col-left">
           <model-viewer src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" alt="Mô hình A" camera-controls auto-rotate ar ar-modes="webxr scene-viewer quick-look" ios-src="" exposure="1"></model-viewer>
         </div>
         <div class="col-right">
-          <h2>Nội dung mô tả</h2>
-          <p class="muted">Thông tin chi tiết về mô hình A: nguồn, tác giả, cách mở rộng, các textures cần có, chú ý về scale.</p>
-          <ul>
-            <li>Format: glTF / GLB</li>
-            <li>Kích thước đề xuất: <code>&lt; 50MB</code> để tải nhanh trên GitHub Pages</li>
-            <li>Đặt file ở: <code>/models/your-model.glb</code></li>
-          </ul>
+          <h2>Chi tiết về đồ gốm Sa Huỳnh</h2>
           <div style="margin-top:auto;display:flex;gap:8px">
             <button class="btn" onclick="showPage('page2')">Quay lại trang chọn</button>
-            <button class="btn secondary" onclick="showPage('page4')">Sang mô hình B</button>
+            <button class="btn secondary" onclick="showPage('page4')">Sang mô hình Đông Sơn</button>
           </div>
         </div>
       </div>
     </section>
 
     <section id="page4" class="page">
-      <h1>Trang 4 — Mô hình B</h1>
+      <h1>Trang 4 — đồ gốm Đông Sơn</h1>
       <div class="two-col" style="margin-top:12px">
         <div class="col-left">
           <model-viewer src="https://modelviewer.dev/shared-assets/models/CartoonCow.glb" alt="Mô hình B" camera-controls auto-rotate ar ar-modes="webxr scene-viewer quick-look"></model-viewer>
         </div>
         <div class="col-right">
-          <h2>Nội dung mô tả</h2>
-          <p class="muted">Thông tin mô tả mô hình B: hướng dẫn scale, material, animation (nếu có).</p>
-          <ul>
-            <li>Kiểm tra ánh sáng nếu model tối hoặc quá sáng</li>
-            <li>Sử dụng <code>poster</code> attribute nếu muốn ảnh preview trước khi tải model</li>
-          </ul>
+          <h2>Chi tiết đồ gốm Đông Sơn</h2>
+          
           <div style="margin-top:auto;display:flex;gap:8px">
             <button class="btn" onclick="showPage('page2')">Quay lại trang chọn</button>
-            <button class="btn secondary" onclick="showPage('page3')">Sang mô hình A</button>
+            <button class="btn secondary" onclick="showPage('page3')">Sang mô hình Sa Huỳnh</button>
           </div>
         </div>
       </div>
     </section>
-
-    <footer style="width:100%;max-width:var(--maxw);padding:18px;box-sizing:border-box;text-align:center;color:#667;margin-top:auto">
-      <small>Ghi chú: thay các URL mẫu bằng đường dẫn file .glb / ảnh của bạn. Phù hợp để deploy lên GitHub Pages.</small>
-    </footer>
   </div>
 
   <script>
