@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Site 3D - Demo</title>
+  <!-- model-viewer: hỗ trợ hiển thị GLB/GLTF 3D dễ dàng -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    :root{--gap:20px;--maxw:1100px}
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    .app{min-height:100vh;display:flex;flex-direction:column;align-items:center;background:#f7f9fb;color:#111}
+
+    /* PAGE container (single-file SPA) */
+    .page{width:100%;max-width:var(--maxw);margin:20px;padding:18px;box-sizing:border-box;display:none}
+    .page.active{display:block}
+
+    /* --- Page 1: hướng dẫn dạng kéo xuống (full-height steps) --- */
+    .steps-wrap{height:70vh;overflow-y:auto;border-radius:12px;background:#fff;padding:16px;box-shadow:0 6px 18px rgba(25,40,60,.06)}
+    .step{min-height:60vh;padding:22px;border-bottom:1px solid #eef2f6;display:flex;flex-direction:column;gap:12px}
+    .step h2{margin:0;font-size:1.4rem}
+    .step p{margin:0;line-height:1.45}
+    .step img{max-width:100%;border-radius:8px;align-self:center;box-shadow:0 6px 18px rgba(20,30,50,.04)}
+    .controls{display:flex;justify-content:flex-end;margin-top:12px}
+    .btn{padding:10px 14px;border-radius:8px;border:0;background:#2563eb;color:#fff;cursor:pointer}
+    .btn.secondary{background:#f3f4f6;color:#111}
+
+    /* --- Page 2: 2 nút sang page 3/4 --- */
+    .nav-grid{display:flex;gap:20px;flex-wrap:wrap}
+    .card{flex:1;min-width:220px;padding:20px;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(20,30,50,.04);display:flex;flex-direction:column;gap:12px}
+
+    /* --- Pages 3 & 4: 2-column layout --- */
+    .two-col{display:flex;gap:var(--gap);align-items:stretch}
+    .col-left{flex:1;min-width:300px}
+    .col-right{flex:1;min-width:260px;display:flex;flex-direction:column;gap:12px}
+    model-viewer{width:100%;height:60vh;background:#eee;border-radius:12px}
+
+    /* responsive */
+    @media (max-width:900px){
+      .two-col{flex-direction:column}
+      model-viewer{height:50vh}
+    }
+
+    /* small helpers */
+    .muted{color:#556;font-size:.95rem}
+    .topbar{width:100%;max-width:var(--maxw);display:flex;justify-content:space-between;align-items:center;padding:10px 18px;box-sizing:border-box}
+    a.logo{font-weight:700;color:#111;text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="logo" href="#" onclick="showPage('page1')">Site 3D</a>
+      <div class="muted">Demo: kéo xuống -> điều hướng -> trang mô hình 3D</div>
+    </header>
+
+    <!-- PAGE 1: hướng dẫn dạng kéo xuống với 3 bước -->
+    <main id="page1" class="page active">
+      <h1>Hướng dẫn nhanh</h1>
+      <p class="muted">Kéo xuống để xem từng bước. Ở mỗi bước có ảnh minh họa. Sau bước cuối bấm NEXT để sang trang chính.</p>
+
+      <div class="steps-wrap" role="region" aria-label="Các bước hướng dẫn">
+        <section class="step" id="step1">
+          <h2>Bước 1 — Giới thiệu</h2>
+          <p>Đây là phần mô tả ngắn cho bước 1. Hướng dẫn người dùng chuẩn bị file .glb hoặc ảnh minh họa.</p>
+          <img src="https://via.placeholder.com/800x450?text=Ảnh+Bước+1" alt="Ảnh minh họa bước 1">
+        </section>
+
+        <section class="step" id="step2">
+          <h2>Bước 2 — Cấu trúc thư mục</h2>
+          <p>Hướng dẫn đặt file 3D vào thư mục `models/`, ảnh vào `images/`. GitHub Pages sẽ phục vụ trực tiếp các file này.</p>
+          <img src="https://via.placeholder.com/800x450?text=Ảnh+Bước+2" alt="Ảnh minh họa bước 2">
+        </section>
+
+        <section class="step" id="step3">
+          <h2>Bước 3 — Cách nhúng mô hình</h2>
+          <p>Sử dụng thẻ <code>&lt;model-viewer&gt;</code> (đã tích hợp sẵn). Thay URL bằng đường dẫn tới file .glb của bạn.</p>
+          <img src="https://via.placeholder.com/800x450?text=Ảnh+Bước+3" alt="Ảnh minh họa bước 3">
+        </section>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;gap:12px;margin-top:14px">
+        <button class="btn secondary" onclick="downloadGuide()">Tải hướng dẫn (.md)</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn" onclick="showPage('page2')">Next — Sang trang chính</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- PAGE 2: 2 nút để qua page 3 và page 4 -->
+    <section id="page2" class="page">
+      <h1>Chọn mô hình cần xem</h1>
+      <p class="muted">Chọn 1 trong 2 mẫu để xem chi tiết (trang 3 và trang 4).</p>
+      <div class="nav-grid" style="margin-top:18px">
+        <div class="card">
+          <h3>Mẫu A</h3>
+          <p class="muted">Mô tả ngắn mô hình A.</p>
+          <div style="margin-top:auto;display:flex;gap:8px">
+            <button class="btn" onclick="showPage('page3')">Mở trang 3</button>
+            <button class="btn secondary" onclick="showPage('page2')">Giữ ở đây</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Mẫu B</h3>
+          <p class="muted">Mô tả ngắn mô hình B.</p>
+          <div style="margin-top:auto;display:flex;gap:8px">
+            <button class="btn" onclick="showPage('page4')">Mở trang 4</button>
+            <button class="btn secondary" onclick="showPage('page2')">Giữ ở đây</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;display:flex;gap:8px">
+        <button class="btn secondary" onclick="showPage('page1')">Quay lại hướng dẫn</button>
+      </div>
+    </section>
+
+    <!-- PAGE 3: mô hình 3D bên trái, nội dung bên phải -->
+    <section id="page3" class="page">
+      <h1>Trang 3 — Mô hình A</h1>
+      <div class="two-col" style="margin-top:12px">
+        <div class="col-left">
+          <!-- Thay src bằng đường dẫn file .glb của bạn -->
+          <model-viewer src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" alt="Mô hình A" camera-controls auto-rotate ar ar-modes="webxr scene-viewer quick-look" ios-src="" exposure="1">
+          </model-viewer>
+        </div>
+        <div class="col-right">
+          <h2>Nội dung mô tả</h2>
+          <p class="muted">Thông tin chi tiết về mô hình A: nguồn, tác giả, cách mở rộng, các textures cần có, chú ý về scale.</p>
+          <ul>
+            <li>Format: glTF / GLB</li>
+            <li>Kích thước đề xuất: <code>&lt; 50MB</code> để tải nhanh trên GitHub Pages</li>
+            <li>Đặt file ở: <code>/models/your-model.glb</code></li>
+          </ul>
+          <div style="margin-top:auto;display:flex;gap:8px">
+            <button class="btn" onclick="showPage('page2')">Quay lại chọn</button>
+            <button class="btn secondary" onclick="showPage('page4')">Sang mô hình B</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 4: tương tự cho mô hình B -->
+    <section id="page4" class="page">
+      <h1>Trang 4 — Mô hình B</h1>
+      <div class="two-col" style="margin-top:12px">
+        <div class="col-left">
+          <!-- Ví dụ khác, thay bằng file của bạn -->
+          <model-viewer src="https://modelviewer.dev/shared-assets/models/CartoonCow.glb" alt="Mô hình B" camera-controls auto-rotate ar ar-modes="webxr scene-viewer quick-look">
+          </model-viewer>
+        </div>
+        <div class="col-right">
+          <h2>Nội dung mô tả</h2>
+          <p class="muted">Thông tin mô tả mô hình B: hướng dẫn scale, material, animation (nếu có).</p>
+          <ul>
+            <li>Kiểm tra ánh sáng nếu model tối hoặc quá sáng</li>
+            <li>Sử dụng <code>poster</code> attribute nếu muốn ảnh preview trước khi tải model</li>
+          </ul>
+          <div style="margin-top:auto;display:flex;gap:8px">
+            <button class="btn" onclick="showPage('page2')">Quay lại chọn</button>
+            <button class="btn secondary" onclick="showPage('page3')">Sang mô hình A</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer style="width:100%;max-width:var(--maxw);padding:18px;box-sizing:border-box;text-align:center;color:#667;margin-top:auto">
+      <small>Ghi chú: thay các URL mẫu bằng đường dẫn file .glb / ảnh của bạn. Phù hợp để deploy lên GitHub Pages.</small>
+    </footer>
+  </div>
+
+  <script>
+    // SPA nhỏ: hiển thị page theo id
+    function showPage(id){
+      const pages = ['page1','page2','page3','page4'];
+      pages.forEach(p=>{const el=document.getElementById(p);if(!el) return;el.classList.toggle('active', p===id)});
+      // cuộn lên đầu nội dung khi chuyển page
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // Tải file hướng dẫn (demo): tạo file markdown nhỏ
+    function downloadGuide(){
+      const md = `# Hướng dẫn deploy site 3D\n\n- Đặt file .glb vào thư mục models/ trong repo.\n- Đặt ảnh vào images/.\n- Sửa src của <model-viewer> thành /models/tenfile.glb\n- Commit và push lên GitHub. Bật GitHub Pages (branch: main, folder: /).`;
+      const blob = new Blob([md],{type:'text/markdown'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Hướng-dẫn-deploy.md';
+      document.body.appendChild(a);a.click();a.remove();
+    }
+
+    // Khởi tạo: nếu URL hash có page thì mở page đó
+    (function(){
+      const hash = location.hash.replace('#','');
+      if(['page1','page2','page3','page4'].includes(hash)) showPage(hash);
+    })();
+  </script>
+</body>
+</html>
