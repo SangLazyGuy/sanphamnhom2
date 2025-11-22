@@ -27,8 +27,6 @@
 </head>
 <body>
   <div class="wrap">
-    <header><h1>Gốm thời Lý — Trưng bày</h1></header>
-
     <div class="sections">
       <!-- VIEW -->
       <section id="view" class="active" aria-label="3D view">
@@ -45,7 +43,6 @@
         <div class="controls">
           <button class="btn" onclick="showSection('info')">Xem thông tin →</button>
           <button class="btn alt" onclick="showSection('poster')">Poster</button>
-          <button class="btn alt" onclick="showSection('view')">Tải lại</button>
         </div>
       </section>
 
@@ -61,7 +58,6 @@
         <div class="controls">
           <button class="btn alt" onclick="showSection('view')">← 3D</button>
           <button class="btn" onclick="showSection('poster')">Poster →</button>
-          <button class="btn alt" onclick="window.print()">In trang</button>
         </div>
       </section>
 
@@ -77,13 +73,11 @@
         <div class="controls">
           <button class="btn alt" onclick="showSection('view')">← 3D</button>
           <button class="btn" onclick="showSection('info')">Thông tin →</button>
-          <button class="btn" onclick="downloadPoster()">Tải poster</button>
         </div>
       </section>
     </div>
 
-    <footer>Trưng bày — Gốm thời Lý</footer>
-  </div>
+ </div>
 
 <script>
   function showSection(id){
